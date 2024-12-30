@@ -18,13 +18,13 @@
 import argparse
 import json
 import base64
-import pprint
+import sys
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 def main():
     p = argparse.ArgumentParser(
@@ -45,7 +45,7 @@ def main():
     aesgcm = AESGCM(key)
     credentials_dec = aesgcm.decrypt(nonce, credentials_enc, None)
     credentials_dec = json.loads(credentials_dec)
-    pprint.pprint(credentials_dec)
+    json.dump(credentials_dec, sys.stdout, indent=4)
 
 if __name__ == "__main__":
     main()
